@@ -1,4 +1,5 @@
 import { PageLayout } from "../components/layouts";
+import { MoviesList } from "../components/movies";
 
 import jumboBg from '../assets/images/backgrounds/bg-movies.jpg'
 
@@ -9,7 +10,7 @@ function HomePage() {
       title: "All the Movies You Love, All in One Place",
       subtitle: "Dive into a world of movies — from timeless classics to the latest blockbusters..."
     }}>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit fuga non qui ut fugiat doloremque alias aperiam corporis, minus quasi praesentium eligendi culpa distinctio, pariatur nisi esse nostrum. Suscipit, libero.</p>
+      <MoviesList />
     </PageLayout>
   )
 }
