@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import { Footer, Navbar } from "./components/ui";
-import { HomePage } from "./pages";
+import { HomePage, MovieDetailsPage } from "./pages";
 
 function App() {
   return (
@@ -10,6 +10,7 @@ function App() {
 
         <Routes>
           <Route index element={<HomePage />} />
+          <Route path="/movies/:movieId" element={<MovieDetailsPage />} />
         </Routes>
       </main>
 
