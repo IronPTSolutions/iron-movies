@@ -3,17 +3,18 @@ import axios from "axios";
 const http = axios.create({
   baseURL: import.meta.env.VITE_TMDB_BASE_API_URL,
   headers: {
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`
-  }
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+  },
 });
 
 http.interceptors.response.use(
   (res) => res.data,
   (error) => Promise.reject(error)
-)
+);
 
 const postersBaseUrl = import.meta.env.VITE_TMDB_BASE_IMAGES_URL;
-const gteVoteCountForRatings = import.meta.env.VITE_TMDB_GTE_VOTE_COUNT_FOR_RATINGS;
+const gteVoteCountForRatings = import.meta.env
+  .VITE_TMDB_GTE_VOTE_COUNT_FOR_RATINGS;
 
 function parseMovie(movie) {
   return {
@@ -24,8 +25,8 @@ function parseMovie(movie) {
     overview: movie.overview,
     rating: movie.vote_average,
     releaseDate: movie.release_date,
-    genres: movie.genre_ids || movie.genres
-  }
+    genres: movie.genre_ids || movie.genres,
+  };
 }
 
 /**
@@ -39,20 +40,18 @@ function parseMovie(movie) {
  */
 export function listMovies(params = {}) {
   const { genre, sortBy, fromReleaseDate, limit = 20 } = params;
-  const queryParams = {}
+  const queryParams = {};
   if (genre) queryParams.with_genres = genre;
-  if (sortBy === 'rating') {
-    queryParams.sort_by = 'vote_average.desc';
-    queryParams['vote_count.gte'] = gteVoteCountForRatings;
+  if (sortBy === "rating") {
+    queryParams.sort_by = "vote_average.desc";
+    queryParams["vote_count.gte"] = gteVoteCountForRatings;
   }
-  if (fromReleaseDate) queryParams['primary_release_date.gte'] = fromReleaseDate;
+  if (fromReleaseDate)
+    queryParams["primary_release_date.gte"] = fromReleaseDate;
 
-  return http.get('/discover/movie', { params: queryParams })
-    .then((data) => {
-      return data.results
-        .slice(0, limit)
-        .map((movie) => parseMovie(movie));
-    })
+  return http.get("/discover/movie", { params: queryParams }).then((data) => {
+    return data.results.slice(0, limit).map((movie) => parseMovie(movie));
+  });
 }
 
 /**
@@ -62,15 +61,17 @@ export function listMovies(params = {}) {
  */
 export function getMovie(id) {
   return Promise.all([
-      http.get(`/movie/${id}`),
-      http.get(`/movie/${id}/videos`),
-    ]).then(([movie, videos]) => {
-      return {
-        ...parseMovie(movie),
-        imdbId: movie.imdb_id,
-        trailers: videos.results
-          .filter(({ site }) => site === 'YouTube')
-          .map(({ key }) => `https://www.youtube.com/watch?v=${key}`)
-      }
-    })
+    http.get(`/movie/${id}`),
+    http.get(`/movie/${id}/videos`),
+    http.get(`/movie/${id}/recommendations`),
+  ]).then(([movie, videos, recs]) => {
+    return {
+      ...parseMovie(movie),
+      imdbId: movie.imdb_id,
+      recs: recs.results.map(parseMovie), // same as .map(x => parseMovie(x))
+      trailers: videos.results
+        .filter(({ site }) => site === "YouTube")
+        .map(({ key }) => `https://www.youtube.com/watch?v=${key}`),
+    };
+  });
 }

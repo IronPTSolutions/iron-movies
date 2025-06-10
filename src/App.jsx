@@ -16,7 +16,7 @@ function App() {
 
       <Footer className="mt-auto" />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
