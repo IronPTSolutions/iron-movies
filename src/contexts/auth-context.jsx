@@ -1,19 +1,31 @@
-import { createContext, useContext } from "react";
-import { useLocation } from "react-router";
-import { useUser } from "../hooks/use-user";
+import { createContext, useContext, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 
+const currentUserKey = "currentUser";
 const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
-  const location = useLocation();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(self.localStorage.getItem(currentUserKey) ? 
+    JSON.parse(self.localStorage.getItem(currentUserKey)) : undefined
+  );
 
-  const { user, loading } = useUser();
-
-  if (loading && location.pathname !== "/login") {
-    return "Loading...";
+  const login = (user) => {
+    self.localStorage.setItem(currentUserKey, JSON.stringify(user));
+    setUser(user);
   }
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    self.localStorage.removeItem(currentUserKey);
+    setUser(undefined);
+    navigate("/login");
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {

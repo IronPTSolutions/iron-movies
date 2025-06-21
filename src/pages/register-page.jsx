@@ -1,11 +1,9 @@
-import { Login } from "../components/auth";
 import { PageLayout } from "../components/layouts";
-import { Link } from "react-router";
+import { Register } from "../components/auth";
 
 import jumboBg from "../assets/images/backgrounds/bg-movies.jpg";
 
-export default function LoginPage() {
-
+function RegisterPage() {
   return (
     <PageLayout
       jumbotron={{
@@ -15,12 +13,9 @@ export default function LoginPage() {
           "Dive into a world of movies — from timeless classics to the latest blockbusters...",
       }}
     >
-      <h3>Login</h3>
-      <Login />
-      <hr></hr>
-      <div className="d-grid">
-        <Link to="/register" className="btn btn-outline-secondary">Register</Link>
-      </div>
+      <Register />
     </PageLayout>
-  );
+  )
 }
+
+export default RegisterPage;

@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { AuthContextProvider } from "./contexts/auth-context";
 
-worker.start().then(() => {
+worker.start({ onUnhandledRequest: "bypass" }).then(() => {
   createRoot(document.getElementById("root")).render(
     <StrictMode>
       <Router>

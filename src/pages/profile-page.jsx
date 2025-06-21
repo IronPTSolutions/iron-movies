@@ -1,11 +1,11 @@
-import { Login } from "../components/auth";
 import { PageLayout } from "../components/layouts";
-import { Link } from "react-router";
+import { useAuth } from "../contexts/auth-context";
+import { MoviesList } from "../components/movies";
 
 import jumboBg from "../assets/images/backgrounds/bg-movies.jpg";
 
-export default function LoginPage() {
-
+function ProfilePage() {
+  const { user } = useAuth();
   return (
     <PageLayout
       jumbotron={{
@@ -15,12 +15,14 @@ export default function LoginPage() {
           "Dive into a world of movies — from timeless classics to the latest blockbusters...",
       }}
     >
-      <h3>Login</h3>
-      <Login />
-      <hr></hr>
-      <div className="d-grid">
-        <Link to="/register" className="btn btn-outline-secondary">Register</Link>
-      </div>
+      <h3>Hello {user.name}</h3>
+
+      {user.favMovies.length > 0 && (
+        <MoviesList title="Favorites" movies={user.favMovies} className="mt-2" />
+      )}
+
     </PageLayout>
   );
 }
+
+export default ProfilePage;
