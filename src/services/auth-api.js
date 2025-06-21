@@ -20,3 +20,7 @@ export function login(username, password) {
 export function register(data) {
   return http.post("/users", data);
 }
+
+export function toggleFav(movie) {
+  return http.post(`/movies/${movie.id}/favorites`, movie);
+}

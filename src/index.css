@@ -1,0 +1,7 @@
+
+
+.fa-heart:hover,
+.fa-heart.active {
+  color: rgba(var(--bs-danger-rgb));
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+}

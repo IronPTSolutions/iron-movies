@@ -8,7 +8,6 @@ function MoviesListController({
   limit,
   sortBy,
   fromReleaseDate,
-  search,
   className = "",
 }) {
   const [movies, setMovies] = useState(null);
@@ -22,7 +21,7 @@ function MoviesListController({
   return (
     <MoviesList
       title={title}
-      movies={movies?.filter((m) => m.title.includes(search))}
+      movies={movies}
       className={className}
     />
   );

@@ -75,3 +75,10 @@ export function getMovie(id) {
     };
   });
 }
+
+export function searchMovie(query) {
+  console.log(query);
+  return http.get("/search/movie", { params: { query } }).then((data) => {
+    return data.results.map((movie) => parseMovie(movie));
+  });
+}
