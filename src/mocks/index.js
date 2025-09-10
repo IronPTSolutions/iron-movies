@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { setupWorker } from 'msw/browser';
 
-const baseApiDomain = 'http://ironhackmockapilogin.com';
+const baseApiDomain = 'https://ironhackmockapilogin.com';
 
 let users = self.localStorage.getItem('users') ? 
   JSON.parse(self.localStorage.getItem('users')) : [];
